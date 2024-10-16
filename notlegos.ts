@@ -23,7 +23,7 @@ namespace notLegos {
 
     let paletteKong = [1, 1, 1, 1]
     let paletteWheel = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    let paletteSock = [2, 3, 2, 3, 2, 3, 2, 3]
+    let paletteSock = [2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3,2,3]
     let paletteScore = [2, 3, 2, 3, 2, 3, 2, 3]
     let paletteBricks = [2, 3, 2, 3, 2, 3, 2, 3]
     let paletteStrip = [6, 7, 8, 9, 10, 11, 6, 7, 8, 9, 10, 11, 6, 7, 8, 9, 10, 11, 6, 7]
@@ -139,14 +139,14 @@ namespace notLegos {
                 this.buf[i * 3 + 1] = vfx_master_r[paletteWheel[i]]
                 this.buf[i * 3 + 2] = vfx_master_b[paletteWheel[i]]
             }
-            sendBuffer(this.buf.slice(0, 20*3), DigitalPin.P15);
+            sendBuffer(this.buf.slice(0, 20*3), DigitalPin.P12);
 
-            for (let i = 0; i < 8; i++) {
+            for (let i = 0; i < 18; i++) {
                 this.buf[i * 3 + 0] = vfx_master_g[paletteSock[i]]
                 this.buf[i * 3 + 1] = vfx_master_r[paletteSock[i]]
                 this.buf[i * 3 + 2] = vfx_master_b[paletteSock[i]]
             }
-            sendBuffer(this.buf.slice(0, 8 * 3), DigitalPin.P14);
+            sendBuffer(this.buf.slice(0, 18 * 3), DigitalPin.P8);
 
             for (let i = 0; i < 8; i++) {
                 this.buf[i * 3 + 0] = vfx_master_g[paletteScore[i]]
@@ -161,7 +161,7 @@ namespace notLegos {
                 this.buf[i * 3 + 1] = vfx_master_r[paletteBricks[i]]
                 this.buf[i * 3 + 2] = vfx_master_b[paletteBricks[i]]
             }
-            sendBuffer(this.buf.slice(0, 8 * 3), DigitalPin.P12);
+            sendBuffer(this.buf.slice(0, 8 * 3), DigitalPin.P15);
 
 
             for (let i = 0; i < 20; i++) {
@@ -169,7 +169,7 @@ namespace notLegos {
                 this.buf[i * 3 + 1] = vfx_master_r[paletteStrip[i]]
                 this.buf[i * 3 + 2] = vfx_master_b[paletteStrip[i]]
             }
-            sendBuffer(this.buf.slice(0, 20 * 3), DigitalPin.P8);
+            sendBuffer(this.buf.slice(0, 20 * 3), DigitalPin.P14);
 
 
         }  //Send all the changes to the strip.
