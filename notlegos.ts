@@ -6,8 +6,9 @@ namespace notLegos {
 
 /// BEGIN NEOPIXEL ///
     export enum hues { red = 0, orange = 15, yellow = 40, lime = 85, green = 110, cyan = 170, blue = 240, purple = 260, pink = 310 }
-    export enum vfxEffect { parade = 0, fire = 1, indicate = 2, idle = 3, glow = 4, mine = 5, off = 6 }
-    let NeoSock: Strip = null; let NeoScore: Strip = null; let NeoWheel: Strip = null; let NeoKong: Strip = null; let NeoStrip: Strip = null; let NeoBrick: Strip = null
+    export enum vfxEffect { parade = 0, fire = 1, indicate = 2, idle = 3, glow = 4, mine = 5, off = 6, active = 7}
+    let NeoWheel: Strip = null;
+    let kongPin = DigitalPin.P16; let wheelPin = DigitalPin.P12; let sockPin = DigitalPin.P8; let scorePin = DigitalPin.P13; let brickPin = DigitalPin.P15; let stripPin = DigitalPin.P14;
     let vfx_mine_tog: number[] = []; let vfx_mine_hue: number[] = []; let vfx_mine_sat: number[] = []; let vfx_mine_lum: number[] = []
     let vfx_fire_tog: number[] = []; let vfx_fire_hue: number[] = []; let vfx_fire_sat: number[] = []; let vfx_fire_lum: number[] = []; let vfx_fire_colors: number[] = []
     let vfx_indicate_tog: number[] = []; let vfx_indicate_hue: number[] = []; let vfx_indicate_sat: number[] = []; let vfx_indicate_lum: number[] = [];
@@ -27,7 +28,12 @@ namespace notLegos {
     let paletteScore = [2, 3, 2, 3, 2, 3, 2, 3]
     let paletteBricks = [2, 3, 2, 3, 2, 3, 2, 3]
     let paletteStrip = [6, 7, 8, 9, 10, 11, 6, 7, 8, 9, 10, 11, 6, 7, 8, 9, 10, 11, 6, 7]
-    let paletteSwing = [2, 3, 2, 3, 2, 3, 2, 3]
+
+
+
+
+
+
 
     //% shim=sendBufferAsm
     function sendBuffer(buf: Buffer, pin: DigitalPin) { }
@@ -85,7 +91,7 @@ namespace notLegos {
                 this.buf[i * 3 + 1] = vfx_master_r[paletteKong[i]]
                 this.buf[i * 3 + 2] = vfx_master_b[paletteKong[i]]
             }
-            sendBuffer(this.buf.slice(0, 4 * 3), DigitalPin.P16);
+            sendBuffer(this.buf.slice(0, 4 * 3), kongPin);
 
 
             for (let i = 0; i < 20; i++) {
@@ -93,21 +99,21 @@ namespace notLegos {
                 this.buf[i * 3 + 1] = vfx_master_r[paletteWheel[i]]
                 this.buf[i * 3 + 2] = vfx_master_b[paletteWheel[i]]
             }
-            sendBuffer(this.buf.slice(0, 20*3), DigitalPin.P12);
+            sendBuffer(this.buf.slice(0, 20*3), wheelPin);
 
             for (let i = 0; i < 18; i++) {
                 this.buf[i * 3 + 0] = vfx_master_g[paletteSock[i]]
                 this.buf[i * 3 + 1] = vfx_master_r[paletteSock[i]]
                 this.buf[i * 3 + 2] = vfx_master_b[paletteSock[i]]
             }
-            sendBuffer(this.buf.slice(0, 18 * 3), DigitalPin.P8);
+            sendBuffer(this.buf.slice(0, 18 * 3), sockPin);
 
             for (let i = 0; i < 8; i++) {
                 this.buf[i * 3 + 0] = vfx_master_g[paletteScore[i]]
                 this.buf[i * 3 + 1] = vfx_master_r[paletteScore[i]]
                 this.buf[i * 3 + 2] = vfx_master_b[paletteScore[i]]
             }
-            sendBuffer(this.buf.slice(0, 8 * 3), DigitalPin.P13);
+            sendBuffer(this.buf.slice(0, 8 * 3), scorePin);
 
 
             for (let i = 0; i < 8; i++) {
@@ -115,7 +121,7 @@ namespace notLegos {
                 this.buf[i * 3 + 1] = vfx_master_r[paletteBricks[i]]
                 this.buf[i * 3 + 2] = vfx_master_b[paletteBricks[i]]
             }
-            sendBuffer(this.buf.slice(0, 8 * 3), DigitalPin.P15);
+            sendBuffer(this.buf.slice(0, 8 * 3), brickPin);
 
 
             for (let i = 0; i < 20; i++) {
@@ -123,7 +129,7 @@ namespace notLegos {
                 this.buf[i * 3 + 1] = vfx_master_r[paletteStrip[i]]
                 this.buf[i * 3 + 2] = vfx_master_b[paletteStrip[i]]
             }
-            sendBuffer(this.buf.slice(0, 20 * 3), DigitalPin.P14);
+            sendBuffer(this.buf.slice(0, 20 * 3), stripPin);
 
 
         }  //Send all the changes to the strip.
@@ -134,10 +140,6 @@ namespace notLegos {
 
         rotate(offset: number = 1): void { this.buf.rotate(-offset * 3, this.start * 3, this._length * 3) } //Rotate LEDs forward
 
-        //setPin(pin: DigitalPin): void {
-        //    this.pin = pin;
-        //    pins.digitalWritePin(this.pin, 0);  // don't yield to avoid races on initialization
-        //}
     }
 
     function create(numleds: number): Strip {
@@ -145,21 +147,9 @@ namespace notLegos {
         strip.buf = pins.createBuffer(numleds * 3);
         strip.start = 0;
         strip._length = numleds;
-        //strip.setPin(thePin)
         return strip;
     }
 
-    //% blockId=NL_PIXEL_CastleSay
-    //% subcategory="Neopixel" Group="Neopixel"
-    //% block="Sock Circle:%sockPin  Wheel Strip/Circle:%wheelPin  Score Circle:%scorePin "
-    //% weight=100
-    export function castleSayLights(sockPin: DigitalPin, wheelPin: DigitalPin, scorePin: DigitalPin): void {
-        //NeoWheel = create(wheelPin, 20)
-        //vfx_light_count = 20
-        //vfxInit()
-        // vfx_indicate_hue[31] = hues.yellow
-        //vfx_indicate_tog[1] = 1
-    }
 
     //% blockId=NL_PIXEL_Virtual
     //% subcategory="Neopixel" Group="Neopixel"
@@ -168,13 +158,8 @@ namespace notLegos {
     export function castleLights(): void {
         NeoWheel = create(20)
         vfx_light_count = 20
-        vfxInit()
         // vfx_indicate_hue[31] = hues.yellow
         vfx_indicate_tog[1] = 1
-    }
-
-
-    function vfxInit(): void{
         vfx_parade_colors = [hues.red, hues.orange, hues.yellow, hues.cyan, hues.blue, hues.purple]
         vfx_fire_colors = [hues.red, hues.red, hues.red, hues.red, hues.orange, hues.orange, hues.orange, hues.orange, hues.orange, hues.yellow]
         for (let index = 0; index < 6; index++) {
@@ -273,10 +258,10 @@ namespace notLegos {
         fireTick()
         glowTick()
         activeTick()
-        castleSayWrite()
         indicateTick()
         idleTick()
         mineTick()
+        castleLightWrite()
     }
 
     function paradeTick(): void{
@@ -441,7 +426,8 @@ namespace notLegos {
         }
     }
 
-    function vfxPrepareMaster(): void{
+
+    function castleLightWrite(): void{
         vfx_master_hue[0] = vfx_glow_hue[0]
         vfx_master_sat[0] = vfx_glow_sat[0]
         vfx_master_lum[0] = Math.min(100, vfx_glow_lum[0])
@@ -493,21 +479,57 @@ namespace notLegos {
         vfx_master_hue[16] = vfx_active_hue[0]
         vfx_master_sat[16] = vfx_active_sat[0]
         vfx_master_lum[16] = Math.min(100, vfx_active_lum[0])
-        for (let index=0; index < NeoWheel.length(); index++){
-
-        }
-        // NeoWheel.buf.getNumber(0)
-
-    }
-
-    function castleSayWrite(): void{
-        vfxPrepareMaster()
-        let masterIndex = 0
         for (let index = 0; index < NeoWheel.length(); index++) {
-            NeoWheel.setPixelHSLPrecise(index, vfx_master_hue[masterIndex], vfx_master_sat[masterIndex], vfx_master_lum[masterIndex])
-            masterIndex++
+            NeoWheel.setPixelHSLPrecise(index, vfx_master_hue[index], vfx_master_sat[index], vfx_master_lum[index])
         }
         NeoWheel.show()
+    }
+
+    let pixelIdle = 2
+    let pixelIndicate = 4
+    let pixelParade = 6
+    let pixelFire = 12
+    function getPixel(effect:vfxEffect): number{
+        if (effect == vfxEffect.mine) {
+            return 1
+        } else if (effect == vfxEffect.idle){
+            if (pixelIdle == 2){
+                pixelIdle = 3
+                return 2
+            } else {
+                pixelIdle = 2
+                return 3
+            }
+        } else if (effect == vfxEffect.indicate){
+            if (pixelIndicate == 4) {
+                pixelIndicate = 5
+                return 4
+            } else {
+                pixelIndicate = 4
+                return 5
+            }
+        } else if (effect == vfxEffect.parade) {
+            if (pixelParade < 11){
+                pixelParade += 1
+                return pixelParade - 1
+            } else {
+                pixelParade = 6
+                return 11
+            }
+        } else if (effect == vfxEffect.fire) {
+            if (pixelFire < 14) {
+                pixelFire += 1
+                return pixelFire - 1
+            } else {
+                pixelFire = 12
+                return 14
+            }
+        } else if (effect == vfxEffect.off) {
+            return 15
+        } else if (effect == vfxEffect.active){
+            return 16
+        }
+        return 0;
     }
 
     //% blockId=NL_PIXEL_SetEffect
@@ -532,15 +554,21 @@ namespace notLegos {
         } else if (region == vfxRegion.Score8) {
             vfx_master_effect[29] = effect
         } else if (region == vfxRegion.ScoreAll) {
-            for (let i = 26; i <= 33; i++) { vfx_master_effect[i] = effect };
+            for (let i=0;i<8;i++){
+                paletteScore[i]=getPixel(effect)
+            }
         } else if (region == vfxRegion.SockAll) {
-            for (let i = 0; i <= 7; i++) { vfx_master_effect[i] = effect };
+            for (let i = 0; i < 18; i++) {
+                paletteSock[i] = getPixel(effect)
+            }
         } else if (region == vfxRegion.WheelInner) {
             for (let i = 18; i <= 25; i++) { vfx_master_effect[i] = effect };
         } else if (region == vfxRegion.WheelOuter) {
             for (let i = 8; i <= 17; i++) { vfx_master_effect[i] = effect };
         } else if (region == vfxRegion.WheelAll) {
-            for (let i=8; i <= 25; i++){ vfx_master_effect[i] = effect };
+            for (let i = 0; i < 20; i++) {
+                paletteWheel[i] = getPixel(effect)
+            }
         } else if (region == vfxRegion.CastleSayAll) {
             for (let i = 0; i <= 33; i++) { vfx_master_effect[i] = effect };
         } else if (region == vfxRegion.SpotA) {
@@ -562,7 +590,9 @@ namespace notLegos {
         } else if (region == vfxRegion.SpotI) {
             for (let i = 18; i <= 19; i++) { vfx_master_effect[i] = effect };
         } else if (region == vfxRegion.SpotAll) {
-            for (let i = 0; i <= 19; i++) { vfx_master_effect[i] = effect };
+            for (let i = 0; i < 20; i++) {
+                paletteStrip[i] = getPixel(effect)
+            }
         } else if (region == vfxRegion.BrickWheel) {
             vfx_master_effect[20] = effect
             vfx_master_effect[27] = effect
@@ -577,13 +607,17 @@ namespace notLegos {
         } else if (region == vfxRegion.BrickCannon) {
             vfx_master_effect[21] = effect
         } else if (region == vfxRegion.BrickAll) {
-            for (let i = 20; i <= 27; i++) { vfx_master_effect[i] = effect };
+            for (let i = 0; i < 8; i++) {
+                paletteBricks[i] = getPixel(effect)
+            }
         } else if (region == vfxRegion.KongFront) {
             for (let i = 28; i <= 29; i++) { vfx_master_effect[i] = effect };
         } else if (region == vfxRegion.KongBack) {
             for (let i = 30; i <= 31; i++) { vfx_master_effect[i] = effect };
         } else if (region == vfxRegion.KongAll) {
-            for (let i = 28; i <=31; i++) { vfx_master_effect[i] = effect };
+            for (let i = 0; i < 4; i++) {
+                paletteKong[i] = getPixel(effect)
+            }
         } else if (region == vfxRegion.CastleDoAll) {
             for (let i = 0; i < vfx_light_count; i++) { vfx_master_effect[i] = effect };
         } 
