@@ -3,7 +3,7 @@ function radioSay (text5: string, val: number) {
     notLegos.printLine("said: " + text5 + "=" + val, 7)
 }
 function buttonPress (button: string) {
-    notLegos.printLine("button: " + button, 3)
+    notLegos.printLine("button: " + button, 6)
 }
 function runTutorial () {
     radioSay("tutor", 1)
@@ -28,14 +28,14 @@ function runTutorial () {
 }
 function ready_oled () {
     if (isCastleSay) {
-        notLegos.printLine("// Castle Say //", 0)
-        notLegos.printLine("P0" + lastWater, 1)
-        notLegos.printLine("S" + lastSonarRead + " H" + Math.round(lastHue / 3) + " G" + lastGesture + " N" + lastHunt, 2)
-        notLegos.printLine("Mode: " + castleMode, 3)
-        notLegos.printLine("M:" + notLegos.mp3durationMusic(), 4)
+        notLegos.printLine("W" + Math.constrain(lastWater, 0, 99) + " Fog: " + fogToggle, 1)
+        notLegos.printLine("D" + lastSonarRead + " H" + Math.round(lastHue / 1) + " G" + lastGesture + " N" + lastHunt, 2)
+        notLegos.printLine("" + "" + " V" + lastVolumeRead, 3)
+        notLegos.printLine("Mode: " + castleMode, 4)
+        notLegos.printLine("M:" + notLegos.mp3durationMusic(), 5)
     } else {
         notLegos.printLine("// Castle Do //", 0)
-        notLegos.printLine("M: " + castleMode + " T " + fogToggle, 1)
+        notLegos.printLine("M: " + castleMode + "" + "", 1)
         notLegos.printLine("R" + Math.constrain(lastLaserR, 0, 9) + " C" + Math.constrain(lastLaserC, 0, 9) + " L" + Math.constrain(lastLaserL, 0, 9), 2)
     }
 }
@@ -197,8 +197,9 @@ let lastLaserR = 0
 let lastHue = 0
 let lastGesture = 0
 let lastSonarRead = 0
-let buttonRow = 0
 let lastVolumeRead = 0
+let buttonRow = 0
+lastVolumeRead = 0
 lastSonarRead = 0
 lastGesture = 0
 lastHue = 0
@@ -219,11 +220,11 @@ if (isCastleSay) {
     digits = notLegos.tm1637Create(DigitalPin.P7, DigitalPin.P6)
     digits.showNumber(3000)
     pins.digitalWritePin(DigitalPin.P5, 1)
+    pins.digitalWritePin(DigitalPin.P1, 1)
     notLegos.mp3setPorts(notLegos.mp3type.music, SerialPin.P14)
     notLegos.mp3setPorts(notLegos.mp3type.sfxvoice, SerialPin.P15)
     notLegos.mp3setPorts(notLegos.mp3type.player, SerialPin.P16)
-    pins.digitalWritePin(DigitalPin.P0, 1)
-    pins.digitalWritePin(DigitalPin.P11, 1)
+    pins.digitalWritePin(DigitalPin.P11, 0)
     pins.digitalWritePin(DigitalPin.P12, 1)
     pins.digitalWritePin(DigitalPin.P13, 1)
     basic.pause(20)
@@ -232,7 +233,7 @@ if (isCastleSay) {
     notLegos.setVolume(notLegos.mp3type.music, 100)
     digits.showNumber(0)
 } else {
-    notLegos.motorSet(notLegos.motors.fan, notLegos.motorState.max)
+    notLegos.motorSet(notLegos.motors.fan, notLegos.motorState.off)
     notLegos.motorSet(notLegos.motors.redrack, notLegos.motorState.min)
     notLegos.motorSet(notLegos.motors.shark, notLegos.motorState.min)
     notLegos.motorSet(notLegos.motors.ghost, notLegos.motorState.min)
@@ -241,7 +242,7 @@ if (isCastleSay) {
     notLegos.motorSet(notLegos.motors.shell, notLegos.motorState.min)
     notLegos.motorSet(notLegos.motors.door, notLegos.motorState.min)
     notLegos.motorSet(notLegos.motors.dragon, notLegos.motorState.min)
-    notLegos.motorSet(notLegos.motors.wheel, notLegos.motorState.min)
+    notLegos.motorSet(notLegos.motors.wheel, notLegos.motorState.off)
     notLegos.castleSayLights(DigitalPin.P14, DigitalPin.P15, DigitalPin.P16)
     notLegos.setEffect(notLegos.vfxRegion.CastleDoAll, notLegos.vfxEffect.parade)
 }
@@ -252,15 +253,29 @@ loops.everyInterval(500, function () {
 	
 })
 loops.everyInterval(500, function () {
-	
-})
-loops.everyInterval(2000, function () {
-    notLegos.printLine("" + iTook + "", 5)
+    if (isCastleSay) {
+        notLegos.printLine("//Castle Say//" + iTook, 0)
+        notLegos.updateVolumeGlobal()
+    }
 })
 loops.everyInterval(40, function () {
     iBegan = input.runningTime()
     if (isCastleSay) {
-        lastWater = Math.round(pins.analogReadPin(AnalogReadWritePin.P0) / 1)
+        buttonRow = pins.analogReadPin(AnalogReadWritePin.P4)
+        if (buttonRow < 10) {
+            buttonPress("a")
+        } else if (buttonRow < 60) {
+            buttonPress("b")
+        } else if (buttonRow < 110) {
+            buttonPress("c")
+        } else if (buttonRow < 200) {
+            buttonPress("d")
+        } else if (buttonRow < 700) {
+            buttonPress("e")
+        }
+        lastVolumeRead = pins.analogReadPin(AnalogReadWritePin.P10)
+        lastWater = Math.round(pins.analogReadPin(AnalogReadWritePin.P2) / 30 - 0)
+        fogToggle = pins.analogReadPin(AnalogReadWritePin.P0) < 1000
         lastHunt = pins.digitalReadPin(DigitalPin.P3)
         lastSonarRead = notLegos.SonarNextRead()
         lastHue = Connected.readColor()
