@@ -34,7 +34,6 @@ function ready_oled () {
         notLegos.printLine("Mode: " + castleMode, 4)
         notLegos.printLine("M:" + notLegos.mp3durationMusic(), 5)
     } else {
-        notLegos.printLine("// Castle Do //", 0)
         notLegos.printLine("M: " + castleMode + "" + "", 1)
         notLegos.printLine("R" + Math.constrain(lastLaserR, 0, 9) + " C" + Math.constrain(lastLaserC, 0, 9) + " L" + Math.constrain(lastLaserL, 0, 9), 2)
     }
@@ -243,7 +242,7 @@ if (isCastleSay) {
     notLegos.motorSet(notLegos.motors.door, notLegos.motorState.min)
     notLegos.motorSet(notLegos.motors.dragon, notLegos.motorState.min)
     notLegos.motorSet(notLegos.motors.wheel, notLegos.motorState.off)
-    notLegos.castleSayLights(DigitalPin.P14, DigitalPin.P15, DigitalPin.P16)
+    notLegos.castleLights()
     notLegos.setEffect(notLegos.vfxRegion.CastleDoAll, notLegos.vfxEffect.parade)
 }
 let iBegan = input.runningTimeMicros()
@@ -256,6 +255,8 @@ loops.everyInterval(500, function () {
     if (isCastleSay) {
         notLegos.printLine("//Castle Say//" + iTook, 0)
         notLegos.updateVolumeGlobal()
+    } else {
+        notLegos.printLine("//Castle Do// " + iTook, 0)
     }
 })
 loops.everyInterval(40, function () {
@@ -286,7 +287,7 @@ loops.everyInterval(40, function () {
         }
         notLegos.castleSayTick()
         lastLaserC = pins.analogReadPin(AnalogReadWritePin.P2)
-        lastLaserL = pins.analogReadPin(AnalogPin.P0)
+        lastLaserL = pins.analogReadPin(AnalogReadWritePin.P0)
         lastLaserR = pins.analogReadPin(AnalogReadWritePin.P1)
     }
     ready_oled()

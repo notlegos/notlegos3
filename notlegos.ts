@@ -34,7 +34,7 @@ namespace notLegos {
 
     export class Strip {
         buf: Buffer;
-        pin: DigitalPin;
+        //pin: DigitalPin;
         start: number; // start offset in LED strip
         _length: number; // number of LEDs
 
@@ -76,53 +76,7 @@ namespace notLegos {
             vfx_master_g[pixeloffset/3] = Math.round(g * 255);
             vfx_master_r[pixeloffset/3] = Math.round(r * 255);
             vfx_master_b[pixeloffset/3] = Math.round(b * 255);
-            this.buf[pixeloffset + 0] = Math.round(g * 255);
-            this.buf[pixeloffset + 1] = Math.round(r * 255);
-            this.buf[pixeloffset + 2] = Math.round(b * 255);
         }
-
-
-        // setPixelHSLPrecise(pixeloffset: number, h: number, s: number, l: number): void {
-        //     if (pixeloffset < 0 || pixeloffset >= this._length)
-        //         return;
-        //     pixeloffset = (pixeloffset + this.start) * 3
-        //     h = Math.clamp(0, 1, h / 360)
-        //     s = Math.clamp(0, 1, s / 100)
-        //     l = Math.clamp(0, 1, l / 100)
-        //     let r, g, b;
-        //     if (s === 0) {
-        //         r = g = b = l; // achromatic
-        //     } else {
-        //         const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-        //         const p = 2 * l - q;
-        //         let t = h + 1 / 3
-        //         if (t < 0) { t += 1; }
-        //         else if (t > 1) { t -= 1; }
-        //         if (t < 1 / 6) { r = p + (q - p) * 6 * t; }
-        //         else if (t < 1 / 2) { r = q; }
-        //         else if (t < 2 / 3) { r = p + (q - p) * (2 / 3 - t) * 6; }
-        //         else { r = p; }
-        //         t = h
-        //         if (t < 0) { t += 1; }
-        //         else if (t > 1) { t -= 1; }
-        //         if (t < 1 / 6) { g = p + (q - p) * 6 * t; }
-        //         else if (t < 1 / 2) { g = q; }
-        //         else if (t < 2 / 3) { g = p + (q - p) * (2 / 3 - t) * 6; }
-        //         else { g = p; }
-        //         t = h - 1 / 3
-        //         if (t < 0) { t += 1; }
-        //         else if (t > 1) { t -= 1; }
-        //         if (t < 1 / 6) { b = p + (q - p) * 6 * t; }
-        //         else if (t < 1 / 2) { b = q; }
-        //         else if (t < 2 / 3) { b = p + (q - p) * (2 / 3 - t) * 6; }
-        //         else { b = p; }
-        //     }
-        //     this.buf[pixeloffset + 0] = Math.round(g * 255);
-        //     this.buf[pixeloffset + 1] = Math.round(r * 255);
-        //     this.buf[pixeloffset + 2] = Math.round(b * 255);
-        // }
-
-        // show() { sendBuffer(this.buf, this.pin); }  //Send all the changes to the strip.
 
         show() { 
 
@@ -180,18 +134,18 @@ namespace notLegos {
 
         rotate(offset: number = 1): void { this.buf.rotate(-offset * 3, this.start * 3, this._length * 3) } //Rotate LEDs forward
 
-        setPin(pin: DigitalPin): void {
-            this.pin = pin;
-            pins.digitalWritePin(this.pin, 0);  // don't yield to avoid races on initialization
-        }
+        //setPin(pin: DigitalPin): void {
+        //    this.pin = pin;
+        //    pins.digitalWritePin(this.pin, 0);  // don't yield to avoid races on initialization
+        //}
     }
 
-    function create(thePin: DigitalPin, numleds: number): Strip {
+    function create(numleds: number): Strip {
         let strip = new Strip();
         strip.buf = pins.createBuffer(numleds * 3);
         strip.start = 0;
         strip._length = numleds;
-        strip.setPin(thePin)
+        //strip.setPin(thePin)
         return strip;
     }
 
@@ -200,7 +154,19 @@ namespace notLegos {
     //% block="Sock Circle:%sockPin  Wheel Strip/Circle:%wheelPin  Score Circle:%scorePin "
     //% weight=100
     export function castleSayLights(sockPin: DigitalPin, wheelPin: DigitalPin, scorePin: DigitalPin): void {
-        NeoWheel = create(wheelPin, 20)
+        //NeoWheel = create(wheelPin, 20)
+        //vfx_light_count = 20
+        //vfxInit()
+        // vfx_indicate_hue[31] = hues.yellow
+        //vfx_indicate_tog[1] = 1
+    }
+
+    //% blockId=NL_PIXEL_Virtual
+    //% subcategory="Neopixel" Group="Neopixel"
+    //% block="initiate castle lights"
+    //% weight=100
+    export function castleLights(): void {
+        NeoWheel = create(20)
         vfx_light_count = 20
         vfxInit()
         // vfx_indicate_hue[31] = hues.yellow
