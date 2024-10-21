@@ -376,19 +376,26 @@ namespace notLegos {
         }
     }
 
-
     let glowParadeColor=0
+    let glowTog=0
     function glowTick(): void {
-        if (vfx_glow_lum<150){
-            vfx_glow_lum = vfx_glow_lum + vfx_glow_lum / 10
-        } else{
-            vfx_glow_lum=.6
-
-            let nextHue = vfx_glow_hue[0]
-            while (nextHue == vfx_glow_hue[0]) {
-                nextHue = vfx_parade_colors[randint(0, vfx_parade_colors.length - 1)]
+        if(glowTog ==0){
+            if (vfx_glow_lum<65){
+                vfx_glow_lum = vfx_glow_lum + vfx_glow_lum / 4 - .1
+            } else if (vfx_glow_lum >= 65){
+                glowTog=1
             }
-            vfx_glow_hue[0] = nextHue
+        } else if (glowTog ==1){
+            if(vfx_glow_lum > 2){
+                vfx_glow_lum = vfx_glow_lum - vfx_glow_lum / 10 - .4
+            } else if (vfx_glow_lum <= 2){
+                glowTog = 0
+                let nextHue = vfx_glow_hue[0]
+                while (nextHue == vfx_glow_hue[0]) {
+                    nextHue = vfx_parade_colors[randint(0, vfx_parade_colors.length - 1)]
+                }
+                vfx_glow_hue[0] = nextHue
+             }
         }
     }
 
