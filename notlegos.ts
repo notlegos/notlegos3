@@ -169,7 +169,7 @@ namespace notLegos {
             vfx_mine_sat.push(100)
             vfx_mine_lum.push(50)
             vfx_glow_tog.push(0)
-            vfx_glow_hue.push(50)
+            vfx_glow_hue.push(vfx_parade_colors[randint(0, vfx_parade_colors.length - 1)])
             vfx_glow_sat.push(0)
             vfx_active_tog.push(0)
             vfx_active_hue.push(50)
@@ -216,8 +216,8 @@ namespace notLegos {
         } else if (effect == vfxEffect.glow) {
             for (let index = 0; index < 1; index++) {
                 vfx_glow_tog[index] = 0
-                vfx_glow_hue[index] = 50
-                // vfx_glow_sat[index] = 100
+                vfx_glow_hue[index] = vfx_parade_colors[randint(0, vfx_parade_colors.length - 1)]
+                vfx_glow_sat[index] = 100
                 vfx_glow_lum = 0.6
             }
         } else if (effect == vfxEffect.mine) {
@@ -377,32 +377,19 @@ namespace notLegos {
     }
 
 
-
+    let glowParadeColor=0
     function glowTick(): void {
-        if (vfx_glow_lum<320){
+        if (vfx_glow_lum<150){
             vfx_glow_lum = vfx_glow_lum + vfx_glow_lum / 10
         } else{
             vfx_glow_lum=.6
-        }
 
-        // for (let index = 0; index < 1; index++) {
-        //     let thisLum = vfx_glow_lum[index]
-        //     if (thisLum < 4){
-        //         vfx_glow_lum[index] = thisLum+.2
-        //     } else if (thisLum < 5) {
-        //         vfx_glow_lum[index] = thisLum+ + .3
-        //     } else if (thisLum < 10) {
-        //         vfx_glow_lum[index] = thisLum + .5
-        //     } else if (thisLum < 15) {
-        //         vfx_glow_lum[index] = thisLum + 1
-        //     }else if (thisLum < 30) {
-        //         vfx_glow_lum[index] = thisLum + 1.5
-        //     } else if (thisLum < 100) {
-        //         vfx_glow_lum[index] = thisLum + 4
-        //     } else{
-        //         vfx_glow_lum[index] = 0
-        //     }
-        // }
+            let nextHue = vfx_glow_hue[0]
+            while (nextHue == vfx_glow_hue[0]) {
+                nextHue = vfx_parade_colors[randint(0, vfx_parade_colors.length - 1)]
+            }
+            vfx_glow_hue[0] = nextHue
+        }
     }
 
     function activeTick(): void {
@@ -430,7 +417,7 @@ namespace notLegos {
     function castleLightWrite(): void{
         vfx_master_hue[0] = vfx_glow_hue[0]
         vfx_master_sat[0] = vfx_glow_sat[0]
-        vfx_master_lum[0] = Math.min(100, vfx_glow_lum)
+        vfx_master_lum[0] = Math.min(50, vfx_glow_lum)
         vfx_master_hue[1] = vfx_mine_hue[0]
         vfx_master_sat[1] = vfx_mine_sat[0]
         vfx_master_lum[1] = Math.max(0, Math.min(50, vfx_mine_lum[0]))

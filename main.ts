@@ -30,7 +30,7 @@ function ready_oled () {
     if (isCastleSay) {
         notLegos.printLine("W" + Math.constrain(lastWater, 0, 99) + " Fog: " + fogToggle, 1)
         notLegos.printLine("D" + lastSonarRead + " H" + Math.round(lastHue / 1) + " G" + lastGesture + " N" + lastHunt, 2)
-        notLegos.printLine("" + " V" + lastVolumeRead, 3)
+        notLegos.printLine(" V" + lastVolumeRead, 3)
         notLegos.printLine("Mode: " + castleMode, 4)
         notLegos.printLine("M:" + notLegos.mp3durationMusic(), 5)
     } else {
@@ -249,7 +249,7 @@ if (isCastleSay) {
     notLegos.setEffect(notLegos.vfxRegion.SpotAll, notLegos.vfxEffect.parade)
     notLegos.setEffect(notLegos.vfxRegion.SockAll, notLegos.vfxEffect.parade)
     notLegos.setEffect(notLegos.vfxRegion.SockAll, notLegos.vfxEffect.parade)
-    notLegos.paradeMode(true)
+    notLegos.paradeMode(false)
     notLegos.setEffect(notLegos.vfxRegion.CastleAll, notLegos.vfxEffect.glow)
     notLegos.vfxReset(notLegos.vfxEffect.glow)
 }
