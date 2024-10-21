@@ -569,8 +569,25 @@ namespace notLegos {
             for (let i = 0; i < 20; i++) {
                 paletteWheel[i] = getPixel(effect)
             }
-        } else if (region == vfxRegion.CastleSayAll) {
-            for (let i = 0; i <= 33; i++) { vfx_master_effect[i] = effect };
+        } else if (region == vfxRegion.CastleAll) {
+            for (let i = 0; i < 8; i++) {
+                paletteScore[i] = getPixel(effect)
+            }
+            for (let i = 0; i < 20; i++) {
+                paletteStrip[i] = getPixel(effect)
+            }
+            for (let i = 0; i < 8; i++) {
+                paletteBricks[i] = getPixel(effect)
+            }
+            for (let i = 0; i < 4; i++) {
+                paletteKong[i] = getPixel(effect)
+            }
+            for (let i = 0; i < 18; i++) {
+                paletteSock[i] = getPixel(effect)
+            } 
+            for (let i = 0; i < 20; i++) {
+                paletteWheel[i] = getPixel(effect)
+            }
         } else if (region == vfxRegion.SpotA) {
             for (let i = 8; i <= 11; i++) { vfx_master_effect[i] = effect };
         } else if (region == vfxRegion.SpotB) {
@@ -618,9 +635,7 @@ namespace notLegos {
             for (let i = 0; i < 4; i++) {
                 paletteKong[i] = getPixel(effect)
             }
-        } else if (region == vfxRegion.CastleDoAll) {
-            for (let i = 0; i < vfx_light_count; i++) { vfx_master_effect[i] = effect };
-        } 
+        }
     }
 
     export enum vfxRegion{
@@ -630,8 +645,7 @@ namespace notLegos {
         KongFront, KongBack, KongAll,
         BrickWheel, BrickBomb, BrickShell, BrickGhost, BrickDragon, BrickCannon, BrickAll,
         SpotA, SpotB, SpotC, SpotD, SpotE, SpotF, SpotG, SpotH, SpotI, SpotAll,
-        CastleSayAll,
-        CastleDoAll
+        CastleAll
     }
 
 /// END NEOPIXEL ///

@@ -30,7 +30,7 @@ function ready_oled () {
     if (isCastleSay) {
         notLegos.printLine("W" + Math.constrain(lastWater, 0, 99) + " Fog: " + fogToggle, 1)
         notLegos.printLine("D" + lastSonarRead + " H" + Math.round(lastHue / 1) + " G" + lastGesture + " N" + lastHunt, 2)
-        notLegos.printLine("" + "" + " V" + lastVolumeRead, 3)
+        notLegos.printLine("" + " V" + lastVolumeRead, 3)
         notLegos.printLine("Mode: " + castleMode, 4)
         notLegos.printLine("M:" + notLegos.mp3durationMusic(), 5)
     } else {
@@ -47,21 +47,21 @@ radio.onReceivedValue(function (name, value) {
             } else if (theName == "welco") {
                 if (value == 1) {
                     notLegos.vfxReset(notLegos.vfxEffect.glow)
-                    notLegos.setEffect(notLegos.vfxRegion.CastleSayAll, notLegos.vfxEffect.glow)
+                    notLegos.setEffect(notLegos.vfxRegion.Score1, notLegos.vfxEffect.glow)
                     notLegos.mp3voicePlay(notLegos.voiceSaying.welcome)
                 } else if (value == 2) {
-                    notLegos.setEffect(notLegos.vfxRegion.CastleSayAll, notLegos.vfxEffect.off)
+                    notLegos.setEffect(notLegos.vfxRegion.Score1, notLegos.vfxEffect.off)
                     notLegos.setEffect(notLegos.vfxRegion.WheelAll, notLegos.vfxEffect.fire)
                     basic.pause(1200)
                     notLegos.mp3voicePlay(notLegos.voiceSaying.intro)
                     basic.pause(3000)
-                    notLegos.setEffect(notLegos.vfxRegion.CastleSayAll, notLegos.vfxEffect.off)
+                    notLegos.setEffect(notLegos.vfxRegion.Score1, notLegos.vfxEffect.off)
                     basic.pause(4000)
                     notLegos.mp3musicPlay(notLegos.musicGenre.awaiting)
                     castleMode = "wait_reg"
                 }
             } else if (theName == "check") {
-                notLegos.setEffect(notLegos.vfxRegion.CastleSayAll, notLegos.vfxEffect.off)
+                notLegos.setEffect(notLegos.vfxRegion.Score1, notLegos.vfxEffect.off)
                 radioSay("ready", 1)
             } else if (false) {
             	
@@ -73,7 +73,7 @@ radio.onReceivedValue(function (name, value) {
                 notLegos.setEffect(notLegos.vfxRegion.KongFront, notLegos.vfxEffect.indicate)
             } else if (theName == "boot") {
                 fogLevel = 3
-                notLegos.setEffect(notLegos.vfxRegion.CastleDoAll, notLegos.vfxEffect.parade)
+                notLegos.setEffect(notLegos.vfxRegion.Score1, notLegos.vfxEffect.parade)
                 notLegos.motorSet(notLegos.motors.wheel, notLegos.motorState.max)
                 basic.pause(value * 1000)
                 notLegos.motorSet(notLegos.motors.wheel, notLegos.motorState.min)
@@ -81,15 +81,15 @@ radio.onReceivedValue(function (name, value) {
                 radioSay("welco", 1)
                 basic.pause(200)
                 notLegos.vfxReset(notLegos.vfxEffect.glow)
-                notLegos.setEffect(notLegos.vfxRegion.CastleDoAll, notLegos.vfxEffect.glow)
+                notLegos.setEffect(notLegos.vfxRegion.Score1, notLegos.vfxEffect.glow)
                 basic.pause(5000)
-                notLegos.setEffect(notLegos.vfxRegion.CastleDoAll, notLegos.vfxEffect.idle)
+                notLegos.setEffect(notLegos.vfxRegion.Score1, notLegos.vfxEffect.idle)
                 notLegos.setEffect(notLegos.vfxRegion.SpotH, notLegos.vfxEffect.mine)
                 notLegos.setEffect(notLegos.vfxRegion.SpotI, notLegos.vfxEffect.mine)
                 basic.pause(0)
                 radioSay("welco", 2)
                 basic.pause(4500)
-                notLegos.setEffect(notLegos.vfxRegion.CastleDoAll, notLegos.vfxEffect.off)
+                notLegos.setEffect(notLegos.vfxRegion.Score1, notLegos.vfxEffect.off)
                 basic.pause(500)
                 notLegos.setEffect(notLegos.vfxRegion.BrickDragon, notLegos.vfxEffect.indicate)
                 basic.pause(1200)
@@ -100,7 +100,7 @@ radio.onReceivedValue(function (name, value) {
                 notLegos.motorSet(notLegos.motors.door, notLegos.motorState.max)
             } else if (theName == "tutor") {
                 if (value == 1) {
-                    notLegos.setEffect(notLegos.vfxRegion.CastleDoAll, notLegos.vfxEffect.off)
+                    notLegos.setEffect(notLegos.vfxRegion.Score1, notLegos.vfxEffect.off)
                     basic.pause(4000)
                     notLegos.vfxReset(notLegos.vfxEffect.glow)
                     notLegos.setEffect(notLegos.vfxRegion.SpotA, notLegos.vfxEffect.glow)
@@ -130,7 +130,7 @@ function fogFlood () {
     if (fogToggle) {
         fogLevel = 3
         basic.pause(10000)
-        notLegos.setEffect(notLegos.vfxRegion.CastleDoAll, notLegos.vfxEffect.parade)
+        notLegos.setEffect(notLegos.vfxRegion.Score1, notLegos.vfxEffect.parade)
         radioSay("para", 1)
         fogLevel = 0
         notLegos.motorSet(notLegos.motors.fan, notLegos.motorState.max)
@@ -180,6 +180,7 @@ function fogFlood () {
         notLegos.motorSet(notLegos.motors.dragon, notLegos.motorState.min)
     }
 }
+let buttonRow = 0
 let iTook = 0
 let theName = ""
 let lastWater = 0
@@ -197,7 +198,6 @@ let lastHue = 0
 let lastGesture = 0
 let lastSonarRead = 0
 let lastVolumeRead = 0
-let buttonRow = 0
 lastVolumeRead = 0
 lastSonarRead = 0
 lastGesture = 0
@@ -249,6 +249,8 @@ if (isCastleSay) {
     notLegos.setEffect(notLegos.vfxRegion.BrickAll, notLegos.vfxEffect.parade)
     notLegos.setEffect(notLegos.vfxRegion.SpotAll, notLegos.vfxEffect.parade)
     notLegos.setEffect(notLegos.vfxRegion.SockAll, notLegos.vfxEffect.parade)
+    notLegos.setEffect(notLegos.vfxRegion.SockAll, notLegos.vfxEffect.parade)
+    notLegos.setEffect(notLegos.vfxRegion.CastleAll, notLegos.vfxEffect.glow)
 }
 let iBegan = input.runningTimeMicros()
 let isReady = true
