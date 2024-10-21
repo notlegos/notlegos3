@@ -46,7 +46,6 @@ radio.onReceivedValue(function (name, value) {
                 radioSay("ready", 1)
             } else if (theName == "welco") {
                 if (value == 1) {
-                    notLegos.vfxReset(notLegos.vfxEffect.glow)
                     notLegos.setEffect(notLegos.vfxRegion.Score1, notLegos.vfxEffect.glow)
                     notLegos.mp3voicePlay(notLegos.voiceSaying.welcome)
                 } else if (value == 2) {
@@ -250,7 +249,9 @@ if (isCastleSay) {
     notLegos.setEffect(notLegos.vfxRegion.SpotAll, notLegos.vfxEffect.parade)
     notLegos.setEffect(notLegos.vfxRegion.SockAll, notLegos.vfxEffect.parade)
     notLegos.setEffect(notLegos.vfxRegion.SockAll, notLegos.vfxEffect.parade)
+    notLegos.paradeMode(true)
     notLegos.setEffect(notLegos.vfxRegion.CastleAll, notLegos.vfxEffect.glow)
+    notLegos.vfxReset(notLegos.vfxEffect.glow)
 }
 let iBegan = input.runningTimeMicros()
 let isReady = true
