@@ -249,9 +249,9 @@ if (isCastleSay) {
     notLegos.setEffect(notLegos.vfxRegion.SpotAll, notLegos.vfxEffect.parade)
     notLegos.setEffect(notLegos.vfxRegion.SockAll, notLegos.vfxEffect.parade)
     notLegos.setEffect(notLegos.vfxRegion.SockAll, notLegos.vfxEffect.parade)
-    notLegos.paradeMode(false)
-    notLegos.setEffect(notLegos.vfxRegion.CastleAll, notLegos.vfxEffect.glow)
     notLegos.vfxReset(notLegos.vfxEffect.glow)
+    notLegos.setEffect(notLegos.vfxRegion.CastleAll, notLegos.vfxEffect.idle)
+    notLegos.paradeMode(true)
 }
 let iBegan = input.runningTimeMicros()
 let isReady = true

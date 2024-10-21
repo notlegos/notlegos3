@@ -183,9 +183,9 @@ namespace notLegos {
             vfx_indicate_lum.push(50)
             vfx_indicate_hue.push(50)
             vfx_indicate_sat.push(100)
-            vfx_idle_tog.push(1)
+            vfx_idle_tog.push(-20)
             if (index % 2 == 0) { vfx_idle_tog[index] = 0; }
-            vfx_idle_hue.push(265)
+            vfx_idle_hue.push(270)
             if (index % 2 == 0) { vfx_idle_hue[index] = 2; }
             vfx_idle_sat.push(100)
             vfx_idle_lum.push(50)
@@ -208,7 +208,7 @@ namespace notLegos {
             for (let index = 0; index < 2; index++) {
                 vfx_idle_tog[index]=1
                 if (index % 2 == 0) { vfx_idle_tog[index] = 0; }
-                vfx_idle_hue[index]=265
+                vfx_idle_hue[index]=360
                 if (index % 2 == 0) { vfx_idle_hue[index] = 2; }
                 vfx_idle_sat[index]=100
                 vfx_idle_lum[index]=50
@@ -218,7 +218,7 @@ namespace notLegos {
                 vfx_glow_tog[index] = 0
                 vfx_glow_hue[index] = vfx_parade_colors[randint(0, vfx_parade_colors.length - 1)]
                 vfx_glow_sat[index] = 100
-                vfx_glow_lum = 0.6
+                vfx_glow_lum = 10
             }
         } else if (effect == vfxEffect.mine) {
             for (let index = 0; index < 1; index++) {
@@ -339,15 +339,15 @@ namespace notLegos {
             let thisTog = vfx_idle_tog[index]
             let nextHue = thisHue
             if (thisTog == 0) {
-                if (thisHue < 265) {
+                if (thisHue < 270) {
                     vfx_idle_hue[index] = thisHue + 1
-                } else if (thisHue >= 265) {
+                } else if (thisHue >= 270) {
                     vfx_idle_tog[index] = 1
                 }
             } else if (thisTog == 1) {
-                if (thisHue > 2) {
+                if (thisHue > -20) {
                     vfx_idle_hue[index] = thisHue - 1
-                } else if (thisHue <= 2) {
+                } else if (thisHue <= -20) {
                     vfx_idle_tog[index] = 0
                 }
             }
@@ -381,14 +381,14 @@ namespace notLegos {
     function glowTick(): void {
         if(glowTog ==0){
             if (vfx_glow_lum<65){
-                vfx_glow_lum = vfx_glow_lum + vfx_glow_lum / 4 - .1
+                vfx_glow_lum = vfx_glow_lum + 12
             } else if (vfx_glow_lum >= 65){
                 glowTog=1
             }
         } else if (glowTog ==1){
-            if(vfx_glow_lum > 2){
-                vfx_glow_lum = vfx_glow_lum - vfx_glow_lum / 10 - .4
-            } else if (vfx_glow_lum <= 2){
+            if(vfx_glow_lum > 10){
+                vfx_glow_lum = vfx_glow_lum - 4
+            } else if (vfx_glow_lum <= 10){
                 glowTog = 0
                 let nextHue = vfx_glow_hue[0]
                 while (nextHue == vfx_glow_hue[0]) {
@@ -399,6 +399,26 @@ namespace notLegos {
         }
     }
 
+    // function glowTick(): void {
+    //     if (glowTog == 0) {
+    //         if (vfx_glow_lum < 65) {
+    //             vfx_glow_lum = vfx_glow_lum + vfx_glow_lum / 4 - .1
+    //         } else if (vfx_glow_lum >= 65) {
+    //             glowTog = 1
+    //         }
+    //     } else if (glowTog == 1) {
+    //         if (vfx_glow_lum > 2) {
+    //             vfx_glow_lum = vfx_glow_lum - vfx_glow_lum / 10 - .4
+    //         } else if (vfx_glow_lum <= 2) {
+    //             glowTog = 0
+    //             let nextHue = vfx_glow_hue[0]
+    //             while (nextHue == vfx_glow_hue[0]) {
+    //                 nextHue = vfx_parade_colors[randint(0, vfx_parade_colors.length - 1)]
+    //             }
+    //             vfx_glow_hue[0] = nextHue
+    //         }
+    //     }
+    // }
     function activeTick(): void {
         for (let index = 0; index < 1; index++) {
             let thisLum = vfx_active_lum[index]
