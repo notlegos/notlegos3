@@ -118,8 +118,9 @@ radio.onReceivedValue(function (name, value) {
 })
 input.onLogoEvent(TouchButtonEvent.Touched, function () {
     if (isCastleSay) {
-        notLegos.mp3magicianAgain()
         notLegos.mp3sayPlay(notLegos.playerSaying.ready)
+        notLegos.mp3magician(notLegos.magicianSaysSide.right, notLegos.magicianDifficulty.hard)
+        notLegos.mp3magicianAgain()
         notLegos.mp3sfxPlay(notLegos.sfxType.fire)
         notLegos.mp3musicPlay(notLegos.musicGenre.intro)
     }
@@ -205,6 +206,8 @@ lastLaserL = 0
 lastLaserC = 0
 lastHunt = 0
 fogToggle = false
+let fogHigh = false
+let fogBlow = false
 fogLevel = 0
 btToken = "KC$"
 pins.setAudioPinEnabled(false)
@@ -220,15 +223,11 @@ if (isCastleSay) {
     notLegos.mp3setPorts(notLegos.mp3type.music, SerialPin.P14)
     notLegos.mp3setPorts(notLegos.mp3type.sfxvoice, SerialPin.P15)
     notLegos.mp3setPorts(notLegos.mp3type.player, SerialPin.P16)
-    pins.digitalWritePin(DigitalPin.P11, 0)
-    pins.digitalWritePin(DigitalPin.P12, 1)
-    pins.digitalWritePin(DigitalPin.P13, 1)
     basic.pause(20)
     notLegos.setVolume(notLegos.mp3type.sfxvoice, 100)
     notLegos.setVolume(notLegos.mp3type.player, 100)
     notLegos.setVolume(notLegos.mp3type.music, 100)
     digits.showPrettyNumber(-30)
-    notLegos.mp3magician(notLegos.magicianSaysSide.right, notLegos.magicianDifficulty.hard)
 } else {
     notLegos.motorSet(notLegos.motors.redrack, notLegos.motorState.off)
     notLegos.motorSet(notLegos.motors.redrack, notLegos.motorState.min)
@@ -252,12 +251,22 @@ let iBegan = input.runningTimeMicros()
 let isReady = true
 castleMode = "init"
 loops.everyInterval(500, function () {
-	
-})
-loops.everyInterval(500, function () {
     if (isCastleSay) {
         notLegos.printLine("//Castle Say//" + iTook, 0)
         notLegos.updateVolumeGlobal()
+        if (fogToggle) {
+            pins.digitalWritePin(DigitalPin.P11, 0)
+            if (fogHigh) {
+                pins.digitalWritePin(DigitalPin.P12, 0)
+                if (fogBlow) {
+                    pins.digitalWritePin(DigitalPin.P13, 0)
+                }
+            }
+        } else {
+            pins.digitalWritePin(DigitalPin.P11, 1)
+            pins.digitalWritePin(DigitalPin.P12, 1)
+            pins.digitalWritePin(DigitalPin.P13, 1)
+        }
     } else {
         notLegos.printLine("//Castle Do// " + iTook, 0)
     }
