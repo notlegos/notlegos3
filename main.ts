@@ -30,7 +30,7 @@ function ready_oled () {
     if (isCastleSay) {
         notLegos.printLine("W" + Math.constrain(lastWater, 0, 99) + " Fog: " + fogToggle, 1)
         notLegos.printLine("D" + lastSonarRead + " H" + Math.round(lastHue / 1) + " G" + lastGesture + " N" + lastHunt, 2)
-        notLegos.printLine(" V" + lastVolumeRead, 3)
+        notLegos.printLine(" V" + notLegos.mp3durationMusic(), 3)
         notLegos.printLine("Mode: " + castleMode, 4)
         notLegos.printLine("M:" + notLegos.mp3durationMusic(), 5)
     } else {
@@ -44,6 +44,9 @@ radio.onReceivedValue(function (name, value) {
         if (isCastleSay) {
             if (theName == "ready") {
                 radioSay("ready", 1)
+                notLegos.mp3musicPlay(notLegos.musicGenre.intro)
+                basic.pause(notLegos.mp3durationMusic() * 1000)
+                radioSay("ready", 2)
             } else if (theName == "welco") {
                 if (value == 1) {
                     notLegos.setEffect(notLegos.vfxRegion.Score1, notLegos.vfxEffect.glow)
@@ -66,8 +69,15 @@ radio.onReceivedValue(function (name, value) {
             }
         } else {
             if (theName == "ready") {
-                castleMode = "go"
-                notLegos.printLine("Status:" + "go!", 6)
+                if (value == 1) {
+                    castleMode = "go"
+                    notLegos.printLine("Status:" + "go!", 6)
+                    notLegos.setEffect(notLegos.vfxRegion.CastleAll, notLegos.vfxEffect.glow)
+                } else if (value == 2) {
+                    notLegos.setEffect(notLegos.vfxRegion.CastleAll, notLegos.vfxEffect.parade)
+                } else {
+                	
+                }
             } else if (theName == "boot") {
                 fogLevel = 3
                 notLegos.setEffect(notLegos.vfxRegion.Score1, notLegos.vfxEffect.parade)
@@ -197,7 +207,6 @@ let lastHue = 0
 let lastGesture = 0
 let lastSonarRead = 0
 let lastVolumeRead = 0
-lastVolumeRead = 0
 lastSonarRead = 0
 lastGesture = 0
 lastHue = 0
@@ -241,17 +250,15 @@ if (isCastleSay) {
     notLegos.motorSet(notLegos.motors.wheel, notLegos.motorState.off)
     notLegos.castleLights()
     notLegos.setEffect(notLegos.vfxRegion.CastleAll, notLegos.vfxEffect.off)
-    notLegos.setEffect(notLegos.vfxRegion.SpotAll, notLegos.vfxEffect.parade)
-    notLegos.setIndicateL(notLegos.hues.pink)
-    notLegos.setIndicateR(notLegos.hues.blue)
-    notLegos.setEffect(notLegos.vfxRegion.SpotB, notLegos.vfxEffect.indicateL)
-    notLegos.setEffect(notLegos.vfxRegion.SpotC, notLegos.vfxEffect.yellow)
 }
 let iBegan = input.runningTimeMicros()
 let isReady = true
 castleMode = "init"
 loops.everyInterval(500, function () {
     if (isCastleSay) {
+        lastWater = Math.round(pins.analogReadPin(AnalogReadWritePin.P2) / 30 - 0)
+        lastVolumeRead = pins.analogReadPin(AnalogReadWritePin.P10)
+        fogToggle = pins.analogReadPin(AnalogReadWritePin.P0) < 1000
         notLegos.printLine("//Castle Say//" + iTook, 0)
         notLegos.updateVolumeGlobal()
         if (fogToggle) {
@@ -286,9 +293,6 @@ loops.everyInterval(40, function () {
         } else if (buttonRow < 700) {
             buttonPress("e")
         }
-        lastVolumeRead = pins.analogReadPin(AnalogReadWritePin.P10)
-        lastWater = Math.round(pins.analogReadPin(AnalogReadWritePin.P2) / 30 - 0)
-        fogToggle = pins.analogReadPin(AnalogReadWritePin.P0) < 1000
         lastHunt = pins.digitalReadPin(DigitalPin.P3)
         lastSonarRead = notLegos.SonarNextRead()
         lastHue = Connected.readColor()
