@@ -12,8 +12,8 @@ namespace notLegos {
     let vfx_mine_tog: number[] = []; let vfx_mine_hue: number[] = []; let vfx_mine_sat: number[] = []; let vfx_mine_lum: number[] = []; let vfx_fire_colors: number[] = []
     let vfx_indicate_tog: number[] = []; let vfx_indicate_hue: number[] = []; let vfx_indicate_sat: number[] = []; let vfx_indicate_lum: number[] = [];
     let vfx_idle_tog: number[] = []; let vfx_idle_hue: number[] = []; let vfx_idle_sat: number[] = []; let vfx_idle_lum: number[] = []
-    let vfx_glow_tog: number[] = []; let vfx_glow_hue: number[] = []; let vfx_glow_sat: number[] = []; let vfx_glow_lum=0.6;
-    let vfx_active_tog: number[] = []; let vfx_active_hue: number[] = []; let vfx_active_sat: number[] = []; let vfx_active_lum: number[] = []
+    // let vfx_glow_tog: number[] = []; let vfx_glow_hue: number[] = []; let vfx_glow_sat: number[] = []; let vfx_glow_lum=0.6;
+    // let vfx_active_tog: number[] = []; let vfx_active_hue: number[] = []; let vfx_active_sat: number[] = []; let vfx_active_lum: number[] = []
     let vfx_off_hue: number[] = []; let vfx_off_sat: number[] = []; let vfx_off_lum: number[] = []
     let vfx_parade_tog: number[] = []; let vfx_parade_hue: number[] = []; let vfx_parade_sat: number[] = []; let vfx_parade_lum: number[] = []; let vfx_parade_colors: number[] = [];
     let vfx_last_tog: number[] = []; let vfx_last_hue: number[] = []; let vfx_last_sat: number[] = []; let vfx_last_lum: number[] = []
@@ -117,12 +117,12 @@ namespace notLegos {
             vfx_mine_hue.push(hues.red)
             vfx_mine_sat.push(100)
             vfx_mine_lum.push(50)
-            vfx_glow_tog.push(0)
-            vfx_glow_hue.push(vfx_parade_colors[randint(0, vfx_parade_colors.length - 1)])
-            vfx_glow_sat.push(0)
-            vfx_active_tog.push(0)
-            vfx_active_hue.push(50)
-            vfx_active_sat.push(0)
+            // vfx_glow_tog.push(0)
+            // vfx_glow_hue.push(vfx_parade_colors[randint(0, vfx_parade_colors.length - 1)])
+            // vfx_glow_sat.push(0)
+            // vfx_active_tog.push(0)
+            // vfx_active_hue.push(50)
+            // vfx_active_sat.push(0)
             vfx_off_hue.push(0)
             vfx_off_sat.push(0)
             vfx_off_lum.push(0)
@@ -168,13 +168,13 @@ namespace notLegos {
                 vfx_idle_sat[index]=100
                 vfx_idle_lum[index]=50
             }
-        } else if (effect == vfxEffect.glow) {
-            for (let index = 0; index < 1; index++) {
-                vfx_glow_tog[index] = 0
-                vfx_glow_hue[index] = vfx_parade_colors[randint(0, vfx_parade_colors.length - 1)]
-                vfx_glow_sat[index] = 100
-                vfx_glow_lum = 10
-            }
+        // } else if (effect == vfxEffect.glow) {
+        //     for (let index = 0; index < 1; index++) {
+        //         vfx_glow_tog[index] = 0
+        //         vfx_glow_hue[index] = vfx_parade_colors[randint(0, vfx_parade_colors.length - 1)]
+        //         vfx_glow_sat[index] = 100
+        //         vfx_glow_lum = 10
+        //     }
         } else if (effect == vfxEffect.mine) {
             for (let index = 0; index < 1; index++) {
                 vfx_mine_tog[index] = 0
@@ -211,8 +211,8 @@ namespace notLegos {
     //% weight=100
     export function castleSayTick(): void {
         paradeTick()
-        glowTick()
-        activeTick()
+        // glowTick()
+        // activeTick()
         indicateTick()
         idleTick()
         mineTick()
@@ -289,37 +289,37 @@ namespace notLegos {
         }
     }
 
-    let glowParadeColor=0; let glowTog=0
-    function glowTick(): void {
-        if(glowTog ==0){
-            if (vfx_glow_lum<65){vfx_glow_lum = vfx_glow_lum + 12} 
-            else if (vfx_glow_lum >= 65){glowTog=1}
-        } else if (glowTog ==1){
-            if(vfx_glow_lum > 10){vfx_glow_lum = vfx_glow_lum - 4} 
-            else if (vfx_glow_lum <= 10){
-                glowTog = 0
-                let nextHue = vfx_glow_hue[0]
-                while (nextHue == vfx_glow_hue[0]) {nextHue = vfx_parade_colors[randint(0, vfx_parade_colors.length - 1)]}
-                vfx_glow_hue[0] = nextHue
-             }
-        }
-    }
+    // let glowParadeColor=0; let glowTog=0
+    // function glowTick(): void {
+    //     if(glowTog ==0){
+    //         if (vfx_glow_lum<65){vfx_glow_lum = vfx_glow_lum + 12} 
+    //         else if (vfx_glow_lum >= 65){glowTog=1}
+    //     } else if (glowTog ==1){
+    //         if(vfx_glow_lum > 10){vfx_glow_lum = vfx_glow_lum - 4} 
+    //         else if (vfx_glow_lum <= 10){
+    //             glowTog = 0
+    //             let nextHue = vfx_glow_hue[0]
+    //             while (nextHue == vfx_glow_hue[0]) {nextHue = vfx_parade_colors[randint(0, vfx_parade_colors.length - 1)]}
+    //             vfx_glow_hue[0] = nextHue
+    //          }
+    //     }
+    // }
 
-    function activeTick(): void {
-        for (let index = 0; index < 1; index++) {
-            let thisLum = vfx_active_lum[index]
-            if (thisLum < 4) { vfx_active_lum[index] = thisLum + .2 } 
-            else if (thisLum < 5) {vfx_active_lum[index] = thisLum + + .3} 
-            else if (thisLum < 10) {vfx_active_lum[index] = thisLum + .5} 
-            else if (thisLum < 15) {vfx_active_lum[index] = thisLum + 1} 
-            else if (thisLum < 30) {vfx_active_lum[index] = thisLum + 1.5} 
-            else if (thisLum < 100) {vfx_active_lum[index] = thisLum + 4} 
-            else {vfx_active_lum[index] = 0}
-        }
-    }
+    // function activeTick(): void {
+    //     for (let index = 0; index < 1; index++) {
+    //         let thisLum = vfx_active_lum[index]
+    //         if (thisLum < 4) { vfx_active_lum[index] = thisLum + .2 } 
+    //         else if (thisLum < 5) {vfx_active_lum[index] = thisLum + + .3} 
+    //         else if (thisLum < 10) {vfx_active_lum[index] = thisLum + .5} 
+    //         else if (thisLum < 15) {vfx_active_lum[index] = thisLum + 1} 
+    //         else if (thisLum < 30) {vfx_active_lum[index] = thisLum + 1.5} 
+    //         else if (thisLum < 100) {vfx_active_lum[index] = thisLum + 4} 
+    //         else {vfx_active_lum[index] = 0}
+    //     }
+    // }
 
     function castleLightWrite(): void{
-        vfx_master_hue[0] = vfx_glow_hue[0]; vfx_master_sat[0] = vfx_glow_sat[0]; vfx_master_lum[0] = Math.min(50, vfx_glow_lum)
+        //vfx_master_hue[0] = 0; vfx_master_sat[0] = 0; vfx_master_lum[0] = 0
         vfx_master_hue[1] = vfx_mine_hue[0]; vfx_master_sat[1] = vfx_mine_sat[0]; vfx_master_lum[1] = Math.max(0, Math.min(50, vfx_mine_lum[0]))
         vfx_master_hue[2] = vfx_idle_hue[0]; vfx_master_sat[2] = vfx_idle_sat[0]; vfx_master_lum[2] = Math.max(0, Math.min(50, vfx_idle_lum[0]))
         vfx_master_hue[3] = vfx_idle_hue[1]; vfx_master_sat[3] = vfx_idle_sat[1]; vfx_master_lum[3] = Math.max(0, Math.min(50, vfx_idle_lum[1]))
@@ -336,7 +336,7 @@ namespace notLegos {
         vfx_master_hue[14] = vfx_parade_hue[8]; vfx_master_sat[14] = vfx_parade_sat[8]; vfx_master_lum[14] = Math.max(0, Math.min(50, vfx_parade_lum[8]))
         //vfx_master_hue[15] = vfx_off_hue[0]; vfx_master_sat[15] = vfx_off_sat[0]; vfx_master_lum[15] = 0
         //vfx_master_hue[16] = vfx_active_hue[0]; vfx_master_sat[16] = vfx_active_sat[0]; vfx_master_lum[16] = Math.min(100, vfx_active_lum[0])
-        for (let index = 0; index < 15; index++) { NeoWheel.setPixelHSLPrecise(index, vfx_master_hue[index], vfx_master_sat[index], vfx_master_lum[index]) }
+        for (let index = 1; index < 15; index++) { NeoWheel.setPixelHSLPrecise(index, vfx_master_hue[index], vfx_master_sat[index], vfx_master_lum[index]) }
         NeoWheel.show()
     }
 

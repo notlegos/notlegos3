@@ -239,7 +239,12 @@ if (isCastleSay) {
     notLegos.motorSet(notLegos.motors.dragon, notLegos.motorState.min)
     notLegos.motorSet(notLegos.motors.wheel, notLegos.motorState.off)
     notLegos.castleLights()
-    notLegos.setEffect(notLegos.vfxRegion.CastleAll, notLegos.vfxEffect.parade)
+    notLegos.setEffect(notLegos.vfxRegion.CastleAll, notLegos.vfxEffect.glow)
+    notLegos.setEffect(notLegos.vfxRegion.SpotAll, notLegos.vfxEffect.parade)
+    notLegos.setIndicateL(notLegos.hues.pink)
+    notLegos.setIndicateR(notLegos.hues.blue)
+    notLegos.setEffect(notLegos.vfxRegion.SpotB, notLegos.vfxEffect.indicateL)
+    notLegos.setEffect(notLegos.vfxRegion.SpotC, notLegos.vfxEffect.indicateR)
 }
 let iBegan = input.runningTimeMicros()
 let isReady = true
