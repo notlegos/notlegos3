@@ -130,14 +130,14 @@ function fogFlood () {
         notLegos.setEffect(notLegos.vfxRegion.Score1, notLegos.vfxEffect.parade)
         radioSay("para", 1)
         fogLevel = 0
-        notLegos.motorSet(notLegos.motors.fan, notLegos.motorState.max)
+        notLegos.motorSet(notLegos.motors.redrack, notLegos.motorState.max)
         notLegos.motorSet(notLegos.motors.door, notLegos.motorState.max)
         basic.pause(1000)
-        notLegos.motorSet(notLegos.motors.fan, notLegos.motorState.mid)
+        notLegos.motorSet(notLegos.motors.redrack, notLegos.motorState.mid)
         basic.pause(6000)
-        notLegos.motorSet(notLegos.motors.fan, notLegos.motorState.min)
+        notLegos.motorSet(notLegos.motors.redrack, notLegos.motorState.min)
         basic.pause(500)
-        notLegos.motorSet(notLegos.motors.fan, notLegos.motorState.off)
+        notLegos.motorSet(notLegos.motors.redrack, notLegos.motorState.off)
         notLegos.motorSet(notLegos.motors.door, notLegos.motorState.min)
         fogLevel = 1
         notLegos.setSock(notLegos.sockState.dancing)
@@ -228,7 +228,7 @@ if (isCastleSay) {
     notLegos.setVolume(notLegos.mp3type.music, 100)
     digits.showPrettyNumber(-30)
 } else {
-    notLegos.motorSet(notLegos.motors.fan, notLegos.motorState.off)
+    notLegos.motorSet(notLegos.motors.redrack, notLegos.motorState.off)
     notLegos.motorSet(notLegos.motors.redrack, notLegos.motorState.min)
     notLegos.motorSet(notLegos.motors.shark, notLegos.motorState.min)
     notLegos.motorSet(notLegos.motors.ghost, notLegos.motorState.min)
@@ -239,12 +239,12 @@ if (isCastleSay) {
     notLegos.motorSet(notLegos.motors.dragon, notLegos.motorState.min)
     notLegos.motorSet(notLegos.motors.wheel, notLegos.motorState.off)
     notLegos.castleLights()
-    notLegos.setEffect(notLegos.vfxRegion.CastleAll, notLegos.vfxEffect.glow)
+    notLegos.setEffect(notLegos.vfxRegion.CastleAll, notLegos.vfxEffect.off)
     notLegos.setEffect(notLegos.vfxRegion.SpotAll, notLegos.vfxEffect.parade)
     notLegos.setIndicateL(notLegos.hues.pink)
     notLegos.setIndicateR(notLegos.hues.blue)
     notLegos.setEffect(notLegos.vfxRegion.SpotB, notLegos.vfxEffect.indicateL)
-    notLegos.setEffect(notLegos.vfxRegion.SpotC, notLegos.vfxEffect.indicateR)
+    notLegos.setEffect(notLegos.vfxRegion.SpotC, notLegos.vfxEffect.red)
 }
 let iBegan = input.runningTimeMicros()
 let isReady = true
