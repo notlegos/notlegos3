@@ -118,6 +118,7 @@ radio.onReceivedValue(function (name, value) {
 })
 input.onLogoEvent(TouchButtonEvent.Touched, function () {
     if (isCastleSay) {
+        notLegos.mp3magicianAgain()
         notLegos.mp3sayPlay(notLegos.playerSaying.ready)
         notLegos.mp3sfxPlay(notLegos.sfxType.fire)
         notLegos.mp3musicPlay(notLegos.musicGenre.intro)
@@ -227,6 +228,7 @@ if (isCastleSay) {
     notLegos.setVolume(notLegos.mp3type.player, 100)
     notLegos.setVolume(notLegos.mp3type.music, 100)
     digits.showPrettyNumber(-30)
+    notLegos.mp3magician(notLegos.magicianSaysSide.right, notLegos.magicianDifficulty.hard)
 } else {
     notLegos.motorSet(notLegos.motors.redrack, notLegos.motorState.off)
     notLegos.motorSet(notLegos.motors.redrack, notLegos.motorState.min)
@@ -244,7 +246,7 @@ if (isCastleSay) {
     notLegos.setIndicateL(notLegos.hues.pink)
     notLegos.setIndicateR(notLegos.hues.blue)
     notLegos.setEffect(notLegos.vfxRegion.SpotB, notLegos.vfxEffect.indicateL)
-    notLegos.setEffect(notLegos.vfxRegion.SpotC, notLegos.vfxEffect.red)
+    notLegos.setEffect(notLegos.vfxRegion.SpotC, notLegos.vfxEffect.yellow)
 }
 let iBegan = input.runningTimeMicros()
 let isReady = true

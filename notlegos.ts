@@ -143,13 +143,12 @@ namespace notLegos {
             vfx_master_lum.push(50)
             vfx_master_effect.push(vfxEffect.off)    //leave this be!
         }
-        // NeoWheel.setPixelHSLPrecise(15, 0, 0, 0)
-        // NeoWheel.setPixelHSLPrecise(16, 0, 0, 100)
-        // NeoWheel.setPixelHSLPrecise(17, hues.green, 100, 50)
-        // NeoWheel.setPixelHSLPrecise(18, hues.yellow, 100, 50)
-        // NeoWheel.setPixelHSLPrecise(19, hues.orange, 100, 50)
-        // NeoWheel.setPixelHSLPrecise(20, hues.red, 100, 50)
-        scoreCirclePrep()
+        NeoWheel.setPixelHSLPrecise(15, 0, 0, 0)
+        NeoWheel.setPixelHSLPrecise(16, 0, 0, 100)
+        NeoWheel.setPixelHSLPrecise(17, hues.green, 100, 50)
+        NeoWheel.setPixelHSLPrecise(18, hues.yellow, 100, 50)
+        NeoWheel.setPixelHSLPrecise(19, hues.orange, 100, 50)
+        NeoWheel.setPixelHSLPrecise(0, hues.red, 100, 50)
     }
 
     //% blockId=NL_PIXEL_ResetVFX
@@ -300,15 +299,6 @@ namespace notLegos {
         NeoWheel.show()
     }
 
-    export function scoreCirclePrep():void{
-        NeoWheel.setPixelHSLPrecise(15, 0, 0, 0)
-        NeoWheel.setPixelHSLPrecise(16, 0, 0, 100)
-        NeoWheel.setPixelHSLPrecise(17, hues.green, 100, 50)
-        NeoWheel.setPixelHSLPrecise(18, hues.yellow, 100, 50)
-        NeoWheel.setPixelHSLPrecise(19, hues.orange, 100, 50)
-        NeoWheel.setPixelHSLPrecise(0, hues.red, 100, 50)
-    }
-
     let pixelIdle = 2; let pixelParade = 6
     function getPixel(effect:vfxEffect): number{
         if (effect == vfxEffect.mine) {return 1} 
@@ -344,7 +334,6 @@ namespace notLegos {
     //% block="Set %region VFX to %effect"
     //% weight=100
     export function setEffect(region:vfxRegion, effect:vfxEffect){
-        pixelIdle = 2; pixelParade = 6
         if (region == vfxRegion.Score1){paletteScore[4] = getPixel(effect)}
         else if (region == vfxRegion.Score2) {paletteScore[5] = getPixel(effect)} 
         else if (region == vfxRegion.Score3) {paletteScore[6] = getPixel(effect)} 
@@ -855,28 +844,45 @@ namespace notLegos {
         }
     }
 
+    let magicianBank:number[][]
+    let magicianQuestion = 0
     //% blockId=NL_MP3_MagicianSay
     //% subcategory="MP3" group="MP3"
     //% block="Magician says on the %side difficulty %difficulty"
     export function mp3magician(side: magicianSaysSide, difficulty: magicianDifficulty): void {
         if (side == magicianSaysSide.left) {
             if (difficulty == magicianDifficulty.easy) {
-
+                magicianBank = sb_magician_left_easy
+                magicianQuestion = takeRotate(playlist_magician_left_easy)
             } else if (difficulty = magicianDifficulty.medium) {
-
+                magicianBank = sb_magician_left_medium
+                magicianQuestion = takeRotate(playlist_magician_left_medium)
             } else if (difficulty = magicianDifficulty.hard) {
-
+                magicianBank = sb_magician_left_hard
+                magicianQuestion = takeRotate(playlist_magician_left_hard)
             }
         } else if (side = magicianSaysSide.right) {
             if (difficulty == magicianDifficulty.easy) {
-
+                magicianBank = sb_magician_right_easy
+                magicianQuestion = takeRotate(playlist_magician_right_easy)
             } else if (difficulty = magicianDifficulty.medium) {
-
+                magicianBank = sb_magician_right_medium
+                magicianQuestion = takeRotate(playlist_magician_right_medium)
             } else if (difficulty = magicianDifficulty.hard) {
-
+                magicianBank = sb_magician_right_hard
+                magicianQuestion = takeRotate(playlist_magician_right_hard)
             }
         } 
+        bankPlay(mp3type.sfxvoice, magicianBank, magicianQuestion)
     }
+
+    //% blockId=NL_MP3_MagicianRepeat
+    //% subcategory="MP3" group="MP3"
+    //% block="Magician repeat last question"
+    export function mp3magicianAgain(): void{
+        bankPlay(mp3type.sfxvoice, magicianBank, magicianQuestion)
+    }
+
 
     //% blockId=NL_MP3_SfxPlay
     //% subcategory="MP3" group="MP3"
