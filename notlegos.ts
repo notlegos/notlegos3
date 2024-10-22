@@ -190,14 +190,19 @@ namespace notLegos {
             }
         }
     }
-    //% blockId=NL_PIXEL_setCircle
+    //% blockId=NL_PIXEL_IndicateLColor
     //% subcategory="Neopixel" Group="Neopixel"
-    //% block="score circle score mode %isScore"
-    export function setCircleMode(isScore:boolean): void{
-        scoreMode = isScore
-        scoreCirclePrep()
+    //% block="indicate left to %theColor"
+    export function setIndicateL(theColor:hues): void{
+        vfx_indicate_hue[0]=theColor
     }
 
+    //% blockId=NL_PIXEL_IndicateRColor
+    //% subcategory="Neopixel" Group="Neopixel"
+    //% block="indicate right to %theColor"
+    export function setIndicateR(theColor: hues): void {
+        vfx_indicate_hue[1] = theColor
+    }
 
 
     //% blockId=NL_PIXEL_CastleSayTick
@@ -329,13 +334,15 @@ namespace notLegos {
         vfx_master_hue[12] = vfx_parade_hue[6]; vfx_master_sat[12] = vfx_parade_sat[6]; vfx_master_lum[12] = Math.max(0, Math.min(50, vfx_parade_lum[6]))
         vfx_master_hue[13] = vfx_parade_hue[7]; vfx_master_sat[13] = vfx_parade_sat[7]; vfx_master_lum[13] = Math.max(0, Math.min(50, vfx_parade_lum[7]))
         vfx_master_hue[14] = vfx_parade_hue[8]; vfx_master_sat[14] = vfx_parade_sat[8]; vfx_master_lum[14] = Math.max(0, Math.min(50, vfx_parade_lum[8]))
-        vfx_master_hue[15] = vfx_off_hue[0]; vfx_master_sat[15] = vfx_off_sat[0]; vfx_master_lum[15] = 0
-        vfx_master_hue[16] = vfx_active_hue[0]; vfx_master_sat[16] = vfx_active_sat[0]; vfx_master_lum[16] = Math.min(100, vfx_active_lum[0])
-        for (let index = 0; index < vfx_light_count; index++) { NeoWheel.setPixelHSLPrecise(index, vfx_master_hue[index], vfx_master_sat[index], vfx_master_lum[index]) }
+        //vfx_master_hue[15] = vfx_off_hue[0]; vfx_master_sat[15] = vfx_off_sat[0]; vfx_master_lum[15] = 0
+        //vfx_master_hue[16] = vfx_active_hue[0]; vfx_master_sat[16] = vfx_active_sat[0]; vfx_master_lum[16] = Math.min(100, vfx_active_lum[0])
+        for (let index = 0; index < 15; index++) { NeoWheel.setPixelHSLPrecise(index, vfx_master_hue[index], vfx_master_sat[index], vfx_master_lum[index]) }
         NeoWheel.show()
     }
 
     export function scoreCirclePrep():void{
+        NeoWheel.setPixelHSLPrecise(15, 0, 0, 0)
+        NeoWheel.setPixelHSLPrecise(16, 0, 0, 100)
         NeoWheel.setPixelHSLPrecise(17, hues.green, 100, 50)
         NeoWheel.setPixelHSLPrecise(18, hues.yellow, 100, 50)
         NeoWheel.setPixelHSLPrecise(19, hues.orange, 100, 50)
@@ -344,6 +351,7 @@ namespace notLegos {
 
     let pixelIdle = 2; let pixelParade = 6
     function getPixel(effect:vfxEffect): number{
+        //pixelIdle = 2; pixelParade = 6
         if (effect == vfxEffect.mine) {return 1} 
             else if (effect == vfxEffect.idle){
             if (pixelIdle == 2){
@@ -369,7 +377,7 @@ namespace notLegos {
         else if (effect == vfxEffect.yellow) { return 18 }
         else if (effect == vfxEffect.orange) { return 19 }
         else if (effect == vfxEffect.red) { return 20 }
-        return 0;
+        return pixelParade;
     }
 
     //% blockId=NL_PIXEL_SetEffect

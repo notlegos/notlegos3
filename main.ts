@@ -239,8 +239,7 @@ if (isCastleSay) {
     notLegos.motorSet(notLegos.motors.dragon, notLegos.motorState.min)
     notLegos.motorSet(notLegos.motors.wheel, notLegos.motorState.off)
     notLegos.castleLights()
-    notLegos.setEffect(notLegos.vfxRegion.CastleAll, notLegos.vfxEffect.idle)
-    notLegos.setEffect(notLegos.vfxRegion.ScoreAll, notLegos.vfxEffect.yellow)
+    notLegos.setEffect(notLegos.vfxRegion.CastleAll, notLegos.vfxEffect.parade)
 }
 let iBegan = input.runningTimeMicros()
 let isReady = true
