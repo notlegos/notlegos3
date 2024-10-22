@@ -50,7 +50,6 @@ radio.onReceivedValue(function (name, value) {
                     notLegos.mp3voicePlay(notLegos.voiceSaying.welcome)
                 } else if (value == 2) {
                     notLegos.setEffect(notLegos.vfxRegion.Score1, notLegos.vfxEffect.off)
-                    notLegos.setEffect(notLegos.vfxRegion.WheelAll, notLegos.vfxEffect.fire)
                     basic.pause(1200)
                     notLegos.mp3voicePlay(notLegos.voiceSaying.intro)
                     basic.pause(3000)
@@ -69,7 +68,6 @@ radio.onReceivedValue(function (name, value) {
             if (theName == "ready") {
                 castleMode = "go"
                 notLegos.printLine("Status:" + "go!", 6)
-                notLegos.setEffect(notLegos.vfxRegion.KongFront, notLegos.vfxEffect.indicate)
             } else if (theName == "boot") {
                 fogLevel = 3
                 notLegos.setEffect(notLegos.vfxRegion.Score1, notLegos.vfxEffect.parade)
@@ -90,10 +88,10 @@ radio.onReceivedValue(function (name, value) {
                 basic.pause(4500)
                 notLegos.setEffect(notLegos.vfxRegion.Score1, notLegos.vfxEffect.off)
                 basic.pause(500)
-                notLegos.setEffect(notLegos.vfxRegion.BrickDragon, notLegos.vfxEffect.indicate)
+                notLegos.setEffect(notLegos.vfxRegion.BrickDragon, notLegos.vfxEffect.parade)
                 basic.pause(1200)
-                notLegos.setEffect(notLegos.vfxRegion.SpotC, notLegos.vfxEffect.indicate)
-                notLegos.setEffect(notLegos.vfxRegion.SpotE, notLegos.vfxEffect.indicate)
+                notLegos.setEffect(notLegos.vfxRegion.SpotC, notLegos.vfxEffect.parade)
+                notLegos.setEffect(notLegos.vfxRegion.SpotE, notLegos.vfxEffect.parade)
                 basic.pause(3000)
                 fogLevel = 1
                 notLegos.motorSet(notLegos.motors.door, notLegos.motorState.max)
@@ -104,8 +102,8 @@ radio.onReceivedValue(function (name, value) {
                     notLegos.vfxReset(notLegos.vfxEffect.glow)
                     notLegos.setEffect(notLegos.vfxRegion.SpotA, notLegos.vfxEffect.glow)
                     basic.pause(6000)
-                    notLegos.setEffect(notLegos.vfxRegion.SpotB, notLegos.vfxEffect.indicate)
-                    notLegos.setEffect(notLegos.vfxRegion.SpotC, notLegos.vfxEffect.indicate)
+                    notLegos.setEffect(notLegos.vfxRegion.SpotB, notLegos.vfxEffect.parade)
+                    notLegos.setEffect(notLegos.vfxRegion.SpotC, notLegos.vfxEffect.parade)
                 } else if (value == 2) {
                 	
                 }
@@ -216,7 +214,6 @@ notLegos.oledinit()
 if (isCastleSay) {
     notLegos.potSet(AnalogPin.P10)
     digits = notLegos.tm1637Create(DigitalPin.P7, DigitalPin.P6)
-    digits.showNumber(3000)
     pins.digitalWritePin(DigitalPin.P5, 1)
     pins.digitalWritePin(DigitalPin.P1, 1)
     notLegos.mp3setPorts(notLegos.mp3type.music, SerialPin.P14)
@@ -229,7 +226,7 @@ if (isCastleSay) {
     notLegos.setVolume(notLegos.mp3type.sfxvoice, 100)
     notLegos.setVolume(notLegos.mp3type.player, 100)
     notLegos.setVolume(notLegos.mp3type.music, 100)
-    digits.showNumber(0)
+    digits.showPrettyNumber(-30)
 } else {
     notLegos.motorSet(notLegos.motors.fan, notLegos.motorState.off)
     notLegos.motorSet(notLegos.motors.redrack, notLegos.motorState.min)
@@ -242,16 +239,8 @@ if (isCastleSay) {
     notLegos.motorSet(notLegos.motors.dragon, notLegos.motorState.min)
     notLegos.motorSet(notLegos.motors.wheel, notLegos.motorState.off)
     notLegos.castleLights()
-    notLegos.setEffect(notLegos.vfxRegion.ScoreAll, notLegos.vfxEffect.parade)
-    notLegos.setEffect(notLegos.vfxRegion.KongAll, notLegos.vfxEffect.parade)
-    notLegos.setEffect(notLegos.vfxRegion.WheelAll, notLegos.vfxEffect.parade)
-    notLegos.setEffect(notLegos.vfxRegion.BrickAll, notLegos.vfxEffect.parade)
-    notLegos.setEffect(notLegos.vfxRegion.SpotAll, notLegos.vfxEffect.parade)
-    notLegos.setEffect(notLegos.vfxRegion.SockAll, notLegos.vfxEffect.parade)
-    notLegos.setEffect(notLegos.vfxRegion.SockAll, notLegos.vfxEffect.parade)
-    notLegos.vfxReset(notLegos.vfxEffect.glow)
     notLegos.setEffect(notLegos.vfxRegion.CastleAll, notLegos.vfxEffect.idle)
-    notLegos.paradeMode(true)
+    notLegos.setEffect(notLegos.vfxRegion.ScoreAll, notLegos.vfxEffect.yellow)
 }
 let iBegan = input.runningTimeMicros()
 let isReady = true
