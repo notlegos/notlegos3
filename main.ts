@@ -44,23 +44,28 @@ radio.onReceivedValue(function (name, value) {
         if (isCastleSay) {
             if (theName == "ready") {
                 radioSay("ready", 1)
+                pins.digitalWritePin(DigitalPin.P5, 1)
                 notLegos.mp3musicPlay(notLegos.musicGenre.intro)
+                fogLow = true
+                fogHigh = true
+                fogBlow = true
                 basic.pause(notLegos.mp3durationMusic() * 1000)
                 radioSay("ready", 2)
+                basic.pause(3500)
+                notLegos.mp3musicPlay(notLegos.musicGenre.awaiting)
+                basic.pause(1500)
+                notLegos.setVolume(notLegos.mp3type.music, 75)
+                notLegos.mp3voicePlay(notLegos.voiceSaying.welcome)
+                basic.pause(notLegos.mp3durationSfxVoice() * 1000)
+                fogHigh = false
+                fogBlow = false
+                basic.pause(2500)
+                radioSay("ready", 3)
+                notLegos.mp3voicePlay(notLegos.voiceSaying.intro)
+                basic.pause(7500)
+                notLegos.setVolume(notLegos.mp3type.music, 100)
             } else if (theName == "welco") {
-                if (value == 1) {
-                    notLegos.setEffect(notLegos.vfxRegion.Score1, notLegos.vfxEffect.glow)
-                    notLegos.mp3voicePlay(notLegos.voiceSaying.welcome)
-                } else if (value == 2) {
-                    notLegos.setEffect(notLegos.vfxRegion.Score1, notLegos.vfxEffect.off)
-                    basic.pause(1200)
-                    notLegos.mp3voicePlay(notLegos.voiceSaying.intro)
-                    basic.pause(3000)
-                    notLegos.setEffect(notLegos.vfxRegion.Score1, notLegos.vfxEffect.off)
-                    basic.pause(4000)
-                    notLegos.mp3musicPlay(notLegos.musicGenre.awaiting)
-                    castleMode = "wait_reg"
-                }
+            	
             } else if (theName == "check") {
                 notLegos.setEffect(notLegos.vfxRegion.Score1, notLegos.vfxEffect.off)
                 radioSay("ready", 1)
@@ -75,45 +80,35 @@ radio.onReceivedValue(function (name, value) {
                     notLegos.setEffect(notLegos.vfxRegion.CastleAll, notLegos.vfxEffect.glow)
                 } else if (value == 2) {
                     notLegos.setEffect(notLegos.vfxRegion.CastleAll, notLegos.vfxEffect.parade)
+                    basic.pause(500)
+                    notLegos.motorSet(notLegos.motors.swing, notLegos.motorState.mid)
+                    basic.pause(1000)
+                    notLegos.motorSet(notLegos.motors.wheel, notLegos.motorState.max)
+                    basic.pause(2000)
+                    notLegos.motorSet(notLegos.motors.swing, notLegos.motorState.off)
+                    notLegos.motorSet(notLegos.motors.wheel, notLegos.motorState.off)
+                    basic.pause(2500)
+                    notLegos.setEffect(notLegos.vfxRegion.SpotH, notLegos.vfxEffect.active)
+                    notLegos.setEffect(notLegos.vfxRegion.SpotI, notLegos.vfxEffect.active)
+                } else if (value == 3) {
+                    basic.pause(3000)
+                    notLegos.setEffect(notLegos.vfxRegion.CastleAll, notLegos.vfxEffect.off)
+                    notLegos.setEffect(notLegos.vfxRegion.BrickDragon, notLegos.vfxEffect.indicateL)
+                    basic.pause(2000)
+                    notLegos.setEffect(notLegos.vfxRegion.SpotE, notLegos.vfxEffect.indicateR)
+                    basic.pause(3500)
+                    notLegos.motorSet(notLegos.motors.door, notLegos.motorState.mid)
+                    basic.pause(4000)
+                } else if (value == 4) {
+                	
                 } else {
                 	
                 }
             } else if (theName == "boot") {
-                fogLevel = 3
-                notLegos.setEffect(notLegos.vfxRegion.Score1, notLegos.vfxEffect.parade)
-                notLegos.motorSet(notLegos.motors.wheel, notLegos.motorState.max)
-                basic.pause(value * 1000)
-                notLegos.motorSet(notLegos.motors.wheel, notLegos.motorState.min)
-                basic.pause(1000)
-                radioSay("welco", 1)
-                basic.pause(200)
-                notLegos.vfxReset(notLegos.vfxEffect.glow)
-                notLegos.setEffect(notLegos.vfxRegion.Score1, notLegos.vfxEffect.glow)
-                basic.pause(5000)
-                notLegos.setEffect(notLegos.vfxRegion.Score1, notLegos.vfxEffect.idle)
-                notLegos.setEffect(notLegos.vfxRegion.SpotH, notLegos.vfxEffect.mine)
-                notLegos.setEffect(notLegos.vfxRegion.SpotI, notLegos.vfxEffect.mine)
-                basic.pause(0)
-                radioSay("welco", 2)
-                basic.pause(4500)
-                notLegos.setEffect(notLegos.vfxRegion.Score1, notLegos.vfxEffect.off)
-                basic.pause(500)
-                notLegos.setEffect(notLegos.vfxRegion.BrickDragon, notLegos.vfxEffect.parade)
-                basic.pause(1200)
-                notLegos.setEffect(notLegos.vfxRegion.SpotC, notLegos.vfxEffect.parade)
-                notLegos.setEffect(notLegos.vfxRegion.SpotE, notLegos.vfxEffect.parade)
-                basic.pause(3000)
-                fogLevel = 1
-                notLegos.motorSet(notLegos.motors.door, notLegos.motorState.max)
+            	
             } else if (theName == "tutor") {
                 if (value == 1) {
-                    notLegos.setEffect(notLegos.vfxRegion.Score1, notLegos.vfxEffect.off)
-                    basic.pause(4000)
-                    notLegos.vfxReset(notLegos.vfxEffect.glow)
-                    notLegos.setEffect(notLegos.vfxRegion.SpotA, notLegos.vfxEffect.glow)
-                    basic.pause(6000)
-                    notLegos.setEffect(notLegos.vfxRegion.SpotB, notLegos.vfxEffect.parade)
-                    notLegos.setEffect(notLegos.vfxRegion.SpotC, notLegos.vfxEffect.parade)
+                	
                 } else if (value == 2) {
                 	
                 }
@@ -198,6 +193,9 @@ let digits: notLegos.TM1637LEDs = null
 let isCastleSay = false
 let btToken = ""
 let fogLevel = 0
+let fogBlow = false
+let fogHigh = false
+let fogLow = false
 let fogToggle = false
 let lastHunt = 0
 let lastLaserC = 0
@@ -215,8 +213,9 @@ lastLaserL = 0
 lastLaserC = 0
 lastHunt = 0
 fogToggle = false
-let fogHigh = false
-let fogBlow = false
+fogLow = false
+fogHigh = false
+fogBlow = false
 fogLevel = 0
 btToken = "KC$"
 pins.setAudioPinEnabled(false)
@@ -227,7 +226,7 @@ notLegos.oledinit()
 if (isCastleSay) {
     notLegos.potSet(AnalogPin.P10)
     digits = notLegos.tm1637Create(DigitalPin.P7, DigitalPin.P6)
-    pins.digitalWritePin(DigitalPin.P5, 1)
+    pins.digitalWritePin(DigitalPin.P5, 0)
     pins.digitalWritePin(DigitalPin.P1, 1)
     notLegos.mp3setPorts(notLegos.mp3type.music, SerialPin.P14)
     notLegos.mp3setPorts(notLegos.mp3type.sfxvoice, SerialPin.P15)
@@ -239,7 +238,7 @@ if (isCastleSay) {
     digits.showPrettyNumber(-30)
 } else {
     notLegos.motorSet(notLegos.motors.redrack, notLegos.motorState.off)
-    notLegos.motorSet(notLegos.motors.redrack, notLegos.motorState.min)
+    notLegos.motorSet(notLegos.motors.swing, notLegos.motorState.off)
     notLegos.motorSet(notLegos.motors.shark, notLegos.motorState.min)
     notLegos.motorSet(notLegos.motors.ghost, notLegos.motorState.min)
     notLegos.motorSet(notLegos.motors.cannon, notLegos.motorState.min)
@@ -262,16 +261,23 @@ loops.everyInterval(500, function () {
         notLegos.printLine("//Castle Say//" + iTook, 0)
         notLegos.updateVolumeGlobal()
         if (fogToggle) {
-            pins.digitalWritePin(DigitalPin.P11, 0)
+            if (fogLow) {
+                pins.digitalWritePin(DigitalPin.P11, 0)
+            } else {
+                pins.digitalWritePin(DigitalPin.P11, 1)
+            }
             if (fogHigh) {
                 pins.digitalWritePin(DigitalPin.P12, 0)
-                if (fogBlow) {
-                    pins.digitalWritePin(DigitalPin.P13, 0)
-                }
+            } else {
+                pins.digitalWritePin(DigitalPin.P12, 1)
             }
         } else {
             pins.digitalWritePin(DigitalPin.P11, 1)
             pins.digitalWritePin(DigitalPin.P12, 1)
+        }
+        if (fogBlow) {
+            pins.digitalWritePin(DigitalPin.P13, 0)
+        } else {
             pins.digitalWritePin(DigitalPin.P13, 1)
         }
     } else {

@@ -915,7 +915,7 @@ namespace notLegos {
     export enum motorState { min, max, mid, off }
     export enum fogLevels { none = 0, light = 1, medium = 2, heavy = 3 }
     export enum sockState { dancing = 1, still = 0 }
-    let motor_wheel_max = 12; let motor_wheel_min = 0
+    let motor_wheel_max = 15; let motor_wheel_min = 0;let motor_wheel_mid = 12
     let servo_redrack_max = 150; let servo_redrack_min = 100
     let servo_cannon_min = 135; let servo_cannon_max = 65
     let servo_shark_min = 20; let servo_shark_max = 85
@@ -980,6 +980,7 @@ namespace notLegos {
         } if (motor == motors.wheel) {
             if (state == motorState.min) { motorSpeed(MotorList.M1, motor_wheel_min) }
             else if (state == motorState.max) { motorSpeed(MotorList.M1, motor_wheel_max) }
+            else if (state == motorState.mid) { motorSpeed(MotorList.M1, motor_wheel_mid) }
             else if (state == motorState.off) { motorSpeed(MotorList.M1, 0) }
         } if (motor == motors.swing) {
             if (state == motorState.min) { motorSpeed(MotorList.M2, motor_swing_min) }
