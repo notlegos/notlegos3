@@ -2,8 +2,15 @@ function radioSay (text5: string, val: number) {
     radio.sendValue("" + btToken + text5, val)
     notLegos.printLine("said: " + text5 + "=" + val, 7)
 }
+function sayLights (light2: number, effect: number) {
+    radioSay("L" + light2, effect)
+}
 function buttonPress (button: string) {
     notLegos.printLine("button: " + button, 6)
+}
+function setRadio (key: string, channel: number) {
+    btToken = "" + key.substr(0, 2) + "$"
+    radio.setGroup(171)
 }
 function runTutorial () {
     radioSay("tutor", 1)
@@ -25,6 +32,23 @@ function runTutorial () {
     notLegos.setVolume(notLegos.mp3type.music, 100)
     basic.pause(7000)
     notLegos.mp3musicPlay(notLegos.musicGenre.awaiting)
+}
+function sayReset () {
+    radioSay("RESET", 1)
+}
+function sayMode (left: boolean, center: boolean, right: boolean) {
+    if (left) {
+        laserMode = "l"
+    } else {
+        laserMode = ""
+    }
+    if (center) {
+        laserMode = "" + laserMode + "c"
+    }
+    if (right) {
+        laserMode = "" + laserMode + "r"
+    }
+    radioSay("D" + laserMode, 1)
 }
 function ready_oled () {
     if (isCastleSay) {
@@ -184,14 +208,18 @@ function fogFlood () {
         notLegos.motorSet(notLegos.motors.dragon, notLegos.motorState.min)
     }
 }
+function sayMotor (motor: number, setting: number) {
+    radioSay("M" + motor, setting)
+}
 let buttonRow = 0
 let iTook = 0
 let theName = ""
 let lastWater = 0
+let laserMode = ""
+let btToken = ""
 let castleMode = ""
 let digits: notLegos.TM1637LEDs = null
 let isCastleSay = false
-let btToken = ""
 let fogLevel = 0
 let fogBlow = false
 let fogHigh = false
@@ -217,11 +245,10 @@ fogLow = false
 fogHigh = false
 fogBlow = false
 fogLevel = 0
-btToken = "KC$"
 pins.setAudioPinEnabled(false)
 led.enable(false)
+setRadio("KC", 171)
 isCastleSay = notLegos.SonarFirstRead(DigitalPin.P8, DigitalPin.P9) > 0
-radio.setGroup(171)
 notLegos.oledinit()
 if (isCastleSay) {
     notLegos.potSet(AnalogPin.P10)
